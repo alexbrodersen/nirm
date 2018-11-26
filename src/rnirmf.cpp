@@ -382,6 +382,8 @@ Rcpp::List rnirmfcpp(arma::mat data, const int nsample, const int nitem, const i
   output["accept_z"] = acc_z;
   output["posterior_z"] = samp_mle_z;
   output["posterior_w"] = samp_mle_w;
+  output["Y"] = y;
+  output["U"] = u;
   
   return(output);
 }

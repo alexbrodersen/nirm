@@ -25,7 +25,7 @@ Rcpp::List hrnirmfcpp(arma::cube data, const int nschool, const int nmax, const 
   double update_like_samp, update_like_item, beta_dist, theta_dist;
   double avg_beta, var_beta, avg_fix_eff, var_fix_eff;
   double post_a, post_b, school_a, school_b;
-
+  
   arma::dcube y(nitem, nmax,  nmax,  fill::zeros);
   arma::dcube u(nmax,  nitem, nitem, fill::zeros);
   
@@ -534,6 +534,10 @@ Rcpp::List hrnirmfcpp(arma::cube data, const int nschool, const int nmax, const 
   output["accept_w"] = acc_w;
   output["posterior_z"] = samp_mle_z;
   output["posterior_w"] = samp_mle_w;
+  output["Y"] = y;
+  output["U"] = u;
+  output["Y"] = y;
+  output["U"] = u;
   
   return(output);
 }
