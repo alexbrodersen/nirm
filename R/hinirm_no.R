@@ -93,7 +93,7 @@ hinirm_no <- function(dataset, nschool, nmax, nitem, ndim = 2, ncount,
                 sigma.m = output$sigma_m, sigma.m.estimate=sigma.m, 
                 sigma.g = output$sigma_g, sigma.g.estimate=sigma.g, 
                 accept_beta=output$accept_beta, accept_theta=output$accept_theta,
-                accept_z=output$accept_z))
+                accept_z=output$accept_z, Y = output$Y, U = output$U))
   }
   else{
     print("Error: The total size of MCMC sample is not integer")

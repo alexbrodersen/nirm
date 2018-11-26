@@ -59,7 +59,7 @@ inirmf <- function(dataset, nsample, nitem, ndim = 2,
                 z.estimate=z.est, w.estimate=w.est, 
                 sigma.z.estimate = sigma.z,
                 accept_beta=output$accept_beta, accept_theta=output$accept_theta,
-                accept_z=output$accept_z, accept_w=output$accept_w))
+                accept_z=output$accept_z, accept_w=output$accept_w, Y = output$Y, U = output$U))
   }
   else{
     print("Error: The total size of MCMC sample is not integer")

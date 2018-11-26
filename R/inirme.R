@@ -60,7 +60,7 @@ inirme <- function(dataset, nsample, nitem, ndim = 2,
                 sigma.z.estimate = sigma.z,
                 accept_beta=output$accept_beta, 
                 accept_theta=output$accept_theta,
-                accept_z=output$accept_z))
+                accept_z=output$accept_z, Y = output$Y, U = output$U))
   }
   else{
     print("Error: The total size of MCMC sample is not integer")

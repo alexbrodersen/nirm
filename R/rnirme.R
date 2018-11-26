@@ -60,7 +60,7 @@ rnirme <- function(dataset, nsample, nitem, ndim = 2,
                 sigma.w.estimate = sigma.w,
                 accept_beta=output$accept_beta, 
                 accept_theta=output$accept_theta,
-                accept_w=output$accept_w))
+                accept_w=output$accept_w, Y = output$Y, U = output$U))
   }
   else{
     print("Error: The total size of MCMC sample is not integer")
