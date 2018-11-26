@@ -405,6 +405,8 @@ Rcpp::List nirmmscpp(arma::cube data, arma::vec nsample, arma::vec nitem, const 
   output["accept_z"] = acc_z;
   output["posterior_z"] = samp_mle_z;
   output["posterior_w"] = samp_mle_w;
-
+  output["Y"] = y;
+  output["U"] = u;
+  
   return(output);
 }
