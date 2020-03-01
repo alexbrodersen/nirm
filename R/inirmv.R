@@ -6,13 +6,13 @@ inirmv <- function(dataset, nsample, nitem, ndim = 2,
                    niter = 30000, nburn = 5000, nthin = 5, nprint = 100,
                    jump_beta = 0.2, jump_theta = 1.0, jump_z = 0.1, jump_w = 0.1,
                    pr_mean_beta = 0.0, pr_sd_beta = 10.0, pr_mean_theta = 0.0, pr_sd_theta = 10.0,
-                   pr_mean_z = 0.0, prior_a = 0.001, prior_b = 0.001, option = TRUE, cores = 1){
+                   pr_mean_z = 0.0, prior_a = 0.001, prior_b = 0.001, option = TRUE, cores = 1, coding = 0){
   
   if((niter - nburn) %% nthin == 0){
     output = inirmvcpp(dataset, nsample, nitem, ndim, niter, nburn, nthin, nprint,
                        jump_beta, jump_theta, jump_z, jump_w,
                        pr_mean_beta, pr_sd_beta, pr_mean_theta, pr_sd_theta,
-                       pr_mean_z, prior_a, prior_b, option, cores)
+                       pr_mean_z, prior_a, prior_b, option, cores, coding = coding)
     
     nmcmc = as.integer((niter - nburn) / nthin)
     max.address_z = which.max(output$posterior_z)
