@@ -306,8 +306,8 @@ BEGIN_RCPP
 END_RCPP
 }
 // inirmvcpp
-Rcpp::List inirmvcpp(arma::mat data, const int nsample, const int nitem, const int ndim, const int niter, const int nburn, const int nthin, const int nprint, const double jump_beta, const double jump_theta, const double jump_z, const double jump_w, const double pr_mean_beta, const double pr_sd_beta, const double pr_mean_theta, const double pr_sd_theta, const double pr_mean_z, const double prior_a, const double prior_b, bool option, const int cores);
-RcppExport SEXP _nirm_inirmvcpp(SEXP dataSEXP, SEXP nsampleSEXP, SEXP nitemSEXP, SEXP ndimSEXP, SEXP niterSEXP, SEXP nburnSEXP, SEXP nthinSEXP, SEXP nprintSEXP, SEXP jump_betaSEXP, SEXP jump_thetaSEXP, SEXP jump_zSEXP, SEXP jump_wSEXP, SEXP pr_mean_betaSEXP, SEXP pr_sd_betaSEXP, SEXP pr_mean_thetaSEXP, SEXP pr_sd_thetaSEXP, SEXP pr_mean_zSEXP, SEXP prior_aSEXP, SEXP prior_bSEXP, SEXP optionSEXP, SEXP coresSEXP) {
+Rcpp::List inirmvcpp(arma::mat data, const int nsample, const int nitem, const int ndim, const int niter, const int nburn, const int nthin, const int nprint, const double jump_beta, const double jump_theta, const double jump_z, const double jump_w, const double pr_mean_beta, const double pr_sd_beta, const double pr_mean_theta, const double pr_sd_theta, const double pr_mean_z, const double prior_a, const double prior_b, bool option, const int cores, const int coding);
+RcppExport SEXP _nirm_inirmvcpp(SEXP dataSEXP, SEXP nsampleSEXP, SEXP nitemSEXP, SEXP ndimSEXP, SEXP niterSEXP, SEXP nburnSEXP, SEXP nthinSEXP, SEXP nprintSEXP, SEXP jump_betaSEXP, SEXP jump_thetaSEXP, SEXP jump_zSEXP, SEXP jump_wSEXP, SEXP pr_mean_betaSEXP, SEXP pr_sd_betaSEXP, SEXP pr_mean_thetaSEXP, SEXP pr_sd_thetaSEXP, SEXP pr_mean_zSEXP, SEXP prior_aSEXP, SEXP prior_bSEXP, SEXP optionSEXP, SEXP coresSEXP, SEXP codingSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -332,7 +332,8 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< const double >::type prior_b(prior_bSEXP);
     Rcpp::traits::input_parameter< bool >::type option(optionSEXP);
     Rcpp::traits::input_parameter< const int >::type cores(coresSEXP);
-    rcpp_result_gen = Rcpp::wrap(inirmvcpp(data, nsample, nitem, ndim, niter, nburn, nthin, nprint, jump_beta, jump_theta, jump_z, jump_w, pr_mean_beta, pr_sd_beta, pr_mean_theta, pr_sd_theta, pr_mean_z, prior_a, prior_b, option, cores));
+    Rcpp::traits::input_parameter< const int >::type coding(codingSEXP);
+    rcpp_result_gen = Rcpp::wrap(inirmvcpp(data, nsample, nitem, ndim, niter, nburn, nthin, nprint, jump_beta, jump_theta, jump_z, jump_w, pr_mean_beta, pr_sd_beta, pr_mean_theta, pr_sd_theta, pr_mean_z, prior_a, prior_b, option, cores, coding));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -433,8 +434,8 @@ BEGIN_RCPP
 END_RCPP
 }
 // rnirmvcpp
-Rcpp::List rnirmvcpp(arma::mat data, const int nsample, const int nitem, const int ndim, const int niter, const int nburn, const int nthin, const int nprint, const double jump_beta, const double jump_theta, const double jump_z, const double jump_w, const double pr_mean_beta, const double pr_sd_beta, const double pr_mean_theta, const double pr_sd_theta, const double pr_mean_w, const double prior_a, const double prior_b, bool option, const int cores);
-RcppExport SEXP _nirm_rnirmvcpp(SEXP dataSEXP, SEXP nsampleSEXP, SEXP nitemSEXP, SEXP ndimSEXP, SEXP niterSEXP, SEXP nburnSEXP, SEXP nthinSEXP, SEXP nprintSEXP, SEXP jump_betaSEXP, SEXP jump_thetaSEXP, SEXP jump_zSEXP, SEXP jump_wSEXP, SEXP pr_mean_betaSEXP, SEXP pr_sd_betaSEXP, SEXP pr_mean_thetaSEXP, SEXP pr_sd_thetaSEXP, SEXP pr_mean_wSEXP, SEXP prior_aSEXP, SEXP prior_bSEXP, SEXP optionSEXP, SEXP coresSEXP) {
+Rcpp::List rnirmvcpp(arma::mat data, const int nsample, const int nitem, const int ndim, const int niter, const int nburn, const int nthin, const int nprint, const double jump_beta, const double jump_theta, const double jump_z, const double jump_w, const double pr_mean_beta, const double pr_sd_beta, const double pr_mean_theta, const double pr_sd_theta, const double pr_mean_w, const double prior_a, const double prior_b, bool option, const int cores, const int coding);
+RcppExport SEXP _nirm_rnirmvcpp(SEXP dataSEXP, SEXP nsampleSEXP, SEXP nitemSEXP, SEXP ndimSEXP, SEXP niterSEXP, SEXP nburnSEXP, SEXP nthinSEXP, SEXP nprintSEXP, SEXP jump_betaSEXP, SEXP jump_thetaSEXP, SEXP jump_zSEXP, SEXP jump_wSEXP, SEXP pr_mean_betaSEXP, SEXP pr_sd_betaSEXP, SEXP pr_mean_thetaSEXP, SEXP pr_sd_thetaSEXP, SEXP pr_mean_wSEXP, SEXP prior_aSEXP, SEXP prior_bSEXP, SEXP optionSEXP, SEXP coresSEXP, SEXP codingSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -459,7 +460,8 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< const double >::type prior_b(prior_bSEXP);
     Rcpp::traits::input_parameter< bool >::type option(optionSEXP);
     Rcpp::traits::input_parameter< const int >::type cores(coresSEXP);
-    rcpp_result_gen = Rcpp::wrap(rnirmvcpp(data, nsample, nitem, ndim, niter, nburn, nthin, nprint, jump_beta, jump_theta, jump_z, jump_w, pr_mean_beta, pr_sd_beta, pr_mean_theta, pr_sd_theta, pr_mean_w, prior_a, prior_b, option, cores));
+    Rcpp::traits::input_parameter< const int >::type coding(codingSEXP);
+    rcpp_result_gen = Rcpp::wrap(rnirmvcpp(data, nsample, nitem, ndim, niter, nburn, nthin, nprint, jump_beta, jump_theta, jump_z, jump_w, pr_mean_beta, pr_sd_beta, pr_mean_theta, pr_sd_theta, pr_mean_w, prior_a, prior_b, option, cores, coding));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -474,11 +476,11 @@ static const R_CallMethodDef CallEntries[] = {
     {"_nirm_hrnirmfcpp", (DL_FUNC) &_nirm_hrnirmfcpp, 25},
     {"_nirm_inirmecpp", (DL_FUNC) &_nirm_inirmecpp, 20},
     {"_nirm_inirmfcpp", (DL_FUNC) &_nirm_inirmfcpp, 22},
-    {"_nirm_inirmvcpp", (DL_FUNC) &_nirm_inirmvcpp, 21},
+    {"_nirm_inirmvcpp", (DL_FUNC) &_nirm_inirmvcpp, 22},
     {"_nirm_nirmmscpp", (DL_FUNC) &_nirm_nirmmscpp, 24},
     {"_nirm_rnirmecpp", (DL_FUNC) &_nirm_rnirmecpp, 20},
     {"_nirm_rnirmfcpp", (DL_FUNC) &_nirm_rnirmfcpp, 22},
-    {"_nirm_rnirmvcpp", (DL_FUNC) &_nirm_rnirmvcpp, 21},
+    {"_nirm_rnirmvcpp", (DL_FUNC) &_nirm_rnirmvcpp, 22},
     {NULL, NULL, 0}
 };
 

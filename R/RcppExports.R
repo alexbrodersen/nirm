@@ -37,8 +37,8 @@ inirmfcpp <- function(data, nsample, nitem, ndim, niter, nburn, nthin, nprint, j
     .Call('_nirm_inirmfcpp', PACKAGE = 'nirm', data, nsample, nitem, ndim, niter, nburn, nthin, nprint, jump_beta, jump_theta, jump_z, jump_w, pr_mean_beta, pr_sd_beta, pr_mean_theta, pr_sd_theta, pr_mean_z, prior_a, prior_b, fix_error, option, cores)
 }
 
-inirmvcpp <- function(data, nsample, nitem, ndim, niter, nburn, nthin, nprint, jump_beta, jump_theta, jump_z, jump_w, pr_mean_beta, pr_sd_beta, pr_mean_theta, pr_sd_theta, pr_mean_z, prior_a, prior_b, option = TRUE, cores = 1L) {
-    .Call('_nirm_inirmvcpp', PACKAGE = 'nirm', data, nsample, nitem, ndim, niter, nburn, nthin, nprint, jump_beta, jump_theta, jump_z, jump_w, pr_mean_beta, pr_sd_beta, pr_mean_theta, pr_sd_theta, pr_mean_z, prior_a, prior_b, option, cores)
+inirmvcpp <- function(data, nsample, nitem, ndim, niter, nburn, nthin, nprint, jump_beta, jump_theta, jump_z, jump_w, pr_mean_beta, pr_sd_beta, pr_mean_theta, pr_sd_theta, pr_mean_z, prior_a, prior_b, option = TRUE, cores = 1L, coding = 0L) {
+    .Call('_nirm_inirmvcpp', PACKAGE = 'nirm', data, nsample, nitem, ndim, niter, nburn, nthin, nprint, jump_beta, jump_theta, jump_z, jump_w, pr_mean_beta, pr_sd_beta, pr_mean_theta, pr_sd_theta, pr_mean_z, prior_a, prior_b, option, cores, coding)
 }
 
 nirmmscpp <- function(data, nsample, nitem, ndim, nset, nsamp_max, nitem_max, ntotal_max, niter, nburn, nthin, nprint, jump_beta, jump_theta, jump_z, pr_mean_beta, pr_sd_beta, pr_mean_theta, pr_sd_theta, pr_mean_z, prior_a, prior_b, option = TRUE, cores = 1L) {
@@ -53,7 +53,7 @@ rnirmfcpp <- function(data, nsample, nitem, ndim, niter, nburn, nthin, nprint, j
     .Call('_nirm_rnirmfcpp', PACKAGE = 'nirm', data, nsample, nitem, ndim, niter, nburn, nthin, nprint, jump_beta, jump_theta, jump_z, jump_w, pr_mean_beta, pr_sd_beta, pr_mean_theta, pr_sd_theta, pr_mean_w, prior_a, prior_b, fix_error, option, cores)
 }
 
-rnirmvcpp <- function(data, nsample, nitem, ndim, niter, nburn, nthin, nprint, jump_beta, jump_theta, jump_z, jump_w, pr_mean_beta, pr_sd_beta, pr_mean_theta, pr_sd_theta, pr_mean_w, prior_a, prior_b, option = TRUE, cores = 1L) {
-    .Call('_nirm_rnirmvcpp', PACKAGE = 'nirm', data, nsample, nitem, ndim, niter, nburn, nthin, nprint, jump_beta, jump_theta, jump_z, jump_w, pr_mean_beta, pr_sd_beta, pr_mean_theta, pr_sd_theta, pr_mean_w, prior_a, prior_b, option, cores)
+rnirmvcpp <- function(data, nsample, nitem, ndim, niter, nburn, nthin, nprint, jump_beta, jump_theta, jump_z, jump_w, pr_mean_beta, pr_sd_beta, pr_mean_theta, pr_sd_theta, pr_mean_w, prior_a, prior_b, option = TRUE, cores = 1L, coding = 0L) {
+    .Call('_nirm_rnirmvcpp', PACKAGE = 'nirm', data, nsample, nitem, ndim, niter, nburn, nthin, nprint, jump_beta, jump_theta, jump_z, jump_w, pr_mean_beta, pr_sd_beta, pr_mean_theta, pr_sd_theta, pr_mean_w, prior_a, prior_b, option, cores, coding)
 }
 
