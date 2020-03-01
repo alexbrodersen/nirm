@@ -14,7 +14,7 @@ Rcpp::List inirmvcpp(arma::mat data, const int nsample, const int nitem, const i
                    const double pr_mean_beta,  const double pr_sd_beta,
                    const double pr_mean_theta, const double pr_sd_theta,
                    const double pr_mean_z, const double prior_a, const double prior_b,
-                   bool option=true, const int cores = 1){
+                   bool option=true, const int cores = 1, const int coding = 0){
 
   //omp_set_num_threads(cores); // omp setting
 
@@ -89,24 +89,53 @@ Rcpp::List inirmvcpp(arma::mat data, const int nsample, const int nitem, const i
   arma::dmat distance_w(nitem, nitem, fill::zeros);
   arma::dvec mean_z(ndim, fill::zeros);
 
-  for(k = 0; k < nitem; k++){
-    for(i = 1; i < nsample; i++)
-      for(j = 0; j < i; j++){
-        y(k,i,j) = data(i,k) * data(j,k) * 1.0;
-        y(k,j,i) = y(k,i,j);
-      }
-  }
+  if(coding == 0){
+    for(k = 0; k < nitem; k++){
+      for(i = 1; i < nsample; i++)
+	for(j = 0; j < i; j++){
+	
+	  y(k,i,j) = data(i,k) * data(j,k) * 1.0;
+	  y(k,j,i) = y(k,i,j);
+	
+	}
+    }
+  
+    for(k = 0; k < nsample; k++){
+      for(i = 1; i < nitem; i++)
+	for(j = 0; j < i; j++){
+	
+	  u(k,i,j) = data(k,i) * data(k,j) * 1.0;
+	  u(k,j,i) = u(k,i,j);
+	
+	}
+    }
+  } else if(coding == 1){
 
-  for(k = 0; k < nsample; k++){
-    for(i = 1; i < nitem; i++)
-      for(j = 0; j < i; j++){
-        u(k,i,j) = data(k,i) * data(k,j) * 1.0;
-        u(k,j,i) = u(k,i,j);
-      }
+    for(k = 0; k < nitem; k++){
+      for(i = 1; i < nsample; i++)
+	for(j = 0; j < i; j++){
+	
+	  y(k,i,j) = pow(data(i,k),data(j,k)) * pow(data(j,k),data(i,k)) * 1.0;
+	  y(k,j,i) = y(k,i,j);
+	
+	}
+    }
+  
+    for(k = 0; k < nsample; k++){
+      for(i = 1; i < nitem; i++)
+	for(j = 0; j < i; j++){
+	  
+	  u(k,i,j) = pow(data(k,i),data(k,j)) * pow(data(k,j),data(k,i)) * 1.0;
+	  u(k,j,i) = u(k,i,j);
+	  
+	}
+    }
+
   }
 
   accept = count = 0;
   for(int iter = 1; iter <= niter; iter++){
+    Rcpp::checkUserInterrupt();
     for(k = 0; k < nsample; k++){
       for(j = 0; j < ndim; j++){
         new_z(k,j) = R::rnorm(old_z(k,j), jump_z);

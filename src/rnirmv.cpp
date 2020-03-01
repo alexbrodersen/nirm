@@ -8,13 +8,13 @@ using namespace arma;
 
 //[[Rcpp::export]]
 Rcpp::List rnirmvcpp(arma::mat data, const int nsample, const int nitem, const int ndim,
-                  const int niter, const int nburn, const int nthin, const int nprint,  
-                  const double jump_beta, const double jump_theta, 
-                  const double jump_z, const double jump_w,
-                  const double pr_mean_beta,  const double pr_sd_beta,
-                  const double pr_mean_theta, const double pr_sd_theta,
-                  const double pr_mean_w, const double prior_a, const double prior_b,
-                  bool option=true, const int cores = 1){
+		     const int niter, const int nburn, const int nthin, const int nprint,  
+		     const double jump_beta, const double jump_theta, 
+		     const double jump_z, const double jump_w,
+		     const double pr_mean_beta,  const double pr_sd_beta,
+		     const double pr_mean_theta, const double pr_sd_theta,
+		     const double pr_mean_w, const double prior_a, const double prior_b,
+		     bool option=true, const int cores = 1, const int coding = 0){
 
   //omp_set_num_threads(cores); // omp setting
   // 1. Settings
@@ -30,6 +30,7 @@ Rcpp::List rnirmvcpp(arma::mat data, const int nsample, const int nitem, const i
   
   arma::dvec count_samp(nsample, fill::zeros);
   arma::dvec count_item(nitem, fill::zeros);
+
   for(k = 0; k < nsample; k++){
     for(i = 0; i < nitem; i++){
       count_samp(k) += data(k,i);
@@ -57,6 +58,7 @@ Rcpp::List rnirmvcpp(arma::mat data, const int nsample, const int nitem, const i
     for(j = 0; j < ndim; j++)
       for(k = 0; k < nsample; k++)
         if(data(k,i) == 1) old_z_mean(k,j) += old_w(i,j) / (count_samp(k) * 1.0);
+  
   arma::dmat new_z_mean = old_z_mean;
   
   arma::dmat old_z(nsample, ndim, fill::zeros);
@@ -89,25 +91,54 @@ Rcpp::List rnirmvcpp(arma::mat data, const int nsample, const int nitem, const i
   arma::dmat distance_z(nsample, nsample, fill::zeros);
   arma::dmat distance_w(nitem, nitem, fill::zeros);
   arma::dvec mean_w(ndim, fill::zeros);
+
+  if(coding == 0){
+    for(k = 0; k < nitem; k++){
+      for(i = 1; i < nsample; i++)
+	for(j = 0; j < i; j++){
+	
+	  y(k,i,j) = data(i,k) * data(j,k) * 1.0;
+	  y(k,j,i) = y(k,i,j);
+	
+	}
+    }
   
-  for(k = 0; k < nitem; k++){
-    for(i = 1; i < nsample; i++)
-      for(j = 0; j < i; j++){
-        y(k,i,j) = data(i,k) * data(j,k) * 1.0;
-        y(k,j,i) = y(k,i,j);
-      }
-  }
+    for(k = 0; k < nsample; k++){
+      for(i = 1; i < nitem; i++)
+	for(j = 0; j < i; j++){
+	
+	  u(k,i,j) = data(k,i) * data(k,j) * 1.0;
+	  u(k,j,i) = u(k,i,j);
+	
+	}
+    }
+  } else if(coding == 1){
+
+    for(k = 0; k < nitem; k++){
+      for(i = 1; i < nsample; i++)
+	for(j = 0; j < i; j++){
+	
+	  y(k,i,j) = pow(data(i,k),data(j,k)) * pow(data(j,k),data(i,k)) * 1.0;
+	  y(k,j,i) = y(k,i,j);
+	
+	}
+    }
   
-  for(k = 0; k < nsample; k++){
-    for(i = 1; i < nitem; i++)
-      for(j = 0; j < i; j++){
-        u(k,i,j) = data(k,i) * data(k,j) * 1.0;
-        u(k,j,i) = u(k,i,j);
-      }
+    for(k = 0; k < nsample; k++){
+      for(i = 1; i < nitem; i++)
+	for(j = 0; j < i; j++){
+	  
+	  u(k,i,j) = pow(data(k,i),data(k,j)) * pow(data(k,j),data(k,i)) * 1.0;
+	  u(k,j,i) = u(k,i,j);
+	  
+	}
+    }
+
   }
   
   accept = count = 0;
   for(int iter = 1; iter <= niter; iter++){
+    Rcpp::checkUserInterrupt();
     // 2. update item latent spaces (w)
     for(i = 0; i < nitem; i++){
       for(j = 0; j < ndim; j++){
@@ -118,6 +149,7 @@ Rcpp::List rnirmvcpp(arma::mat data, const int nsample, const int nitem, const i
             new_z_mean(k,j) += new_w(i,j) / (count_samp(k) * 1.0);
           }
       }
+      
       item_like.fill(0.0); old_idist.fill(0.0); new_idist.fill(0.0);
       
       #pragma omp parallel for private(a,j,k) default(shared)
@@ -219,8 +251,9 @@ Rcpp::List rnirmvcpp(arma::mat data, const int nsample, const int nitem, const i
       ratio = update_like_samp + (num - den);
       //if(option) printf("SAMPLE-%.3d: Likelihood %.3f, Num %.3f, Den %.3f, Ratio: %.3f\n", k, update_like_samp, num, den, ratio);
 
-      if(ratio > 0.0) accept = 1;
-      else{
+      if(ratio > 0.0) {
+	accept = 1;
+      } else{
         un = R::runif(0,1);
         if(std::log(un) < ratio) accept = 1;
         else accept = 0;
@@ -308,7 +341,7 @@ Rcpp::List rnirmvcpp(arma::mat data, const int nsample, const int nitem, const i
       }
       else newtheta(k) = oldtheta(k);
     }
-
+    
     if(iter > nburn && iter % nthin == 0){
       // 6. Save Posterior value
       mle_z = 0.0; 
